@@ -237,6 +237,32 @@ namespace ProjectGrpSVA.Controllers
             return View();
         }
 
+        public ActionResult MarketBasketAnalysis()
+        {
+            return View();
+        }
+
+        public ActionResult IncomePrediction()
+        {
+            return View();
+        }
+
+        public ActionResult NaturalLanguageProcessing()
+        {
+            return View();
+        }
+
+        public ActionResult Clustering()
+        {
+            return View();
+        }
+
+        public ActionResult MoreAnalytics()
+        {
+            return View();
+        }
+
+
 
     }
 }
