@@ -268,6 +268,10 @@
     <Content Include="Views\Home\Analytics.cshtml" />
     <Content Include="Views\Home\OrderProductFiles.cshtml" />
     <Content Include="Views\Home\HourOfDay.cshtml" />
+    <Content Include="Views\Home\DayOfWeek.cshtml" />
+    <Content Include="Views\Home\DaySincePriorOrder.cshtml" />
+    <Content Include="Views\Home\PriorOrders.cshtml" />
+    <Content Include="Views\Home\ItemsDoPeopleBuy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

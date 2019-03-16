@@ -8,7 +8,7 @@ namespace ProjectGrpSVA.DataAccess
 {
     public class Order_Products
     {
-        [Key]
+        public int Order_ProductsId { get; set; }
         public int order_id { get; set; }
         public int product_id { get; set; }
         public int add_to_cart_order { get; set; }

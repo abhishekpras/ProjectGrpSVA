@@ -13,13 +13,6 @@ namespace ProjectGrpSVA.DataAccess.DL
         {
         }
 
-        private readonly string _connectionString;
-
-        public DataModel(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
         public DbSet<Product> Product { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<Aisle> Aisle { get; set; }

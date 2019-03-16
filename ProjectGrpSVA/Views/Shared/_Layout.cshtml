@@ -27,8 +27,17 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dash Board<span class="caret"></span></a>
                         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                            <li><a href="#">Some action</a></li>
-                            <li><a href="#">Some other action</a></li>
+                            <li><a href="#">Visualizing the Product Portfolio</a></li>
+                            <li><a href="#">Bestsellers</a></li>
+                            <li><a href="#">Most often reordered</a></li>
+                            <li><a href="#">Exploring Customer Habits</a></li>
+                            <li><a href="#">The customer with the strongest habit</a></li>
+                            <li><a href="#">Most often reordered</a></li>
+                            <li><a href="#">Which item do people put into the cart first?</a></li>
+                            <li><a href="#">Association between time of last order and probability of reorder</a></li>
+                            <li><a href="#">Association between number of orders and probability of reordering</a></li>
+                            <li><a href="#">Organic vs Non-organic</a></li>
+                            <li><a href="#">Reordering Organic vs Non-Organic</a></li>
                             <li class="divider"></li>
                             <li class="dropdown-submenu">
                                 <a tabindex="-1" href="#">Order Analysis</a>
@@ -38,12 +47,12 @@
                                         <a href="#">When do customer order?</a>
                                         <ul class="dropdown-menu">
                                             <li>@Html.ActionLink("Hour of Day", "HourOfDay", "Home")</li>
-                                            <li>@Html.ActionLink("Day of Week", "Index", "Home")</li>
-                                            <li>@Html.ActionLink("Reorder", "Index", "Home")</li>
+                                            <li>@Html.ActionLink("Day of Week", "DayOfWeek", "Home")</li>
+                                            <li>@Html.ActionLink("Reorder", "DaySincePriorOrder", "Home")</li>
                                         </ul>
                                     </li>
-                                    <li><a href="#">Second level</a></li>
-                                    <li><a href="#">Second level</a></li>
+                                    <li>@Html.ActionLink("How many prior orders are there?", "PriorOrders", "Home")</li>
+                                    <li>@Html.ActionLink("How many items do people buy?", "ItemsDoPeopleBuy", "Home")</li>
                                 </ul>
                             </li>
                         </ul>

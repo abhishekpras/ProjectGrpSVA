@@ -5,6 +5,7 @@ using ProjectGrpSVA.DataAccess.DL;
 using ProjectGrpSVA.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -179,6 +180,59 @@ namespace ProjectGrpSVA.Controllers
                    .Select(g => new { name = g.Key, count = g.Count() });
 
             string json = JsonConvert.SerializeObject(query);
+
+            ViewBag.json = json;
+
+            return View();
+        }
+
+        public ActionResult DayOfWeek()
+        {
+            var query = db.Orders
+                   .GroupBy(p => p.order_dow)
+                   .Select(g => new { name = g.Key, count = g.Count() });
+
+            string json = JsonConvert.SerializeObject(query);
+
+            ViewBag.json = json;
+
+            return View();
+        }
+
+        public ActionResult DaySincePriorOrder()
+        {
+            var query = db.Orders
+                   .GroupBy(p => p.days_since_prior_order)
+                   .Select(g => new { name = g.Key, count = g.Count() });
+           
+
+            string json = JsonConvert.SerializeObject(query);
+
+            ViewBag.json = json;
+
+            return View();
+        }
+
+        public ActionResult PriorOrders()
+        {
+            var query = db.Orders.Where(u => u.eval_set == "prior");
+
+            string json = JsonConvert.SerializeObject(query);
+
+            ViewBag.json = json;
+
+            return View();
+        }
+
+        public ActionResult ItemsDoPeopleBuy()
+        {
+            var query = db.Order_Products
+                   .GroupBy(p => p.order_id)
+                   .Select(g => new { name = g.Key, count = g.Count() });
+
+            string json = JsonConvert.SerializeObject(query);
+
+            ViewBag.json = json;
 
             return View();
         }
