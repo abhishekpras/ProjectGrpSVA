@@ -239,6 +239,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\OrderDisplay.cs" />
     <Compile Include="Models\ProductDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -254,6 +255,7 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Home\DepartmentFiles.cshtml" />
     <Content Include="Views\Home\ProductFiles.cshtml" />
+    <Content Include="Views\Home\OrderFiles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

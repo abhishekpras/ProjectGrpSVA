@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectGrpSVA.DataAccess.Aisle>
+﻿@model IEnumerable< ProjectGrpSVA.Models.OrderDisplay>
 @using GridMvc.Html
 @{
     ViewBag.Title = "Index";
@@ -7,13 +7,13 @@
 @section css {
     <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
 }
-<h2>Aisle Data</h2>
+<h2>Order Data</h2>
 
 <div class="col-md-12">
     <label />
 </div>
 <div class="col-md-12">
-    @using (Html.BeginForm("uploadAsileCsv", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("uploadOrderCsv", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="form-group">
             <label for="attachment">Select a Csv File</label>

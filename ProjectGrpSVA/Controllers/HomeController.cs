@@ -103,5 +103,47 @@ namespace ProjectGrpSVA.Controllers
             db.SaveChanges();
             return Redirect("ProductFiles");
         }
+
+        public ActionResult OrderFiles()
+        {
+            var query =
+                (from p in db.Order_Products
+                join o in db.Product on p.product_id equals o.product_id
+                select new
+                {
+                    Order_Id = p.product_id,
+                    Product_Name = o.product_name,
+                    Add_To_Cart_Order = p.add_to_cart_order,
+                    Reordered = p.product_id
+                }).ToList();
+
+            List<OrderDisplay> orderList = new List<OrderDisplay>();
+            foreach (var ord in query)
+            {
+                OrderDisplay ordDis = new OrderDisplay();
+                ordDis.Order_Id = ord.Order_Id;
+                ordDis.Product_Name = ord.Product_Name;
+                ordDis.Add_To_Cart_Order = ord.Add_To_Cart_Order;
+                ordDis.Reordered = ord.Reordered;
+                orderList.Add(ordDis);
+            }
+            return View(orderList);
+        }
+        [HttpPost]
+        public ActionResult uploadOrderCsv(HttpPostedFileBase attachmentcsv)
+        {
+            CsvFileDescription csvFileDescription = new CsvFileDescription
+            {
+                SeparatorChar = ',',
+                FirstLineHasColumnNames = true
+            };
+            CsvContext csvContext = new CsvContext();
+            StreamReader streamReader = new StreamReader(attachmentcsv.InputStream);
+            IEnumerable<Order_Products> list = csvContext.Read<Order_Products>(streamReader, csvFileDescription);
+            db.Order_Products.AddRange(list);
+            db.SaveChanges();
+            return Redirect("OrderFiles");
+        }
+
     }
 }
