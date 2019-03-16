@@ -12,26 +12,29 @@
 <div class="col-md-12">
     <label />
 </div>
-<div class="col-md-12">
-    @using (Html.BeginForm("uploadAsileCsv", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <div class="form-group">
-            <label for="attachment">Select a Csv File</label>
-            <label class="btn btn-default btn-file">
-                <input type="file" name="attachmentcsv" id="attachmentcsv" hidden>
-            </label>
-        </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
-    }
+
+<div>
+    @Html.Grid(Model).AutoGenerateColumns().Sortable().Filterable().WithPaging(5)
 </div>
 
 <div class="col-md-12">
     <label />
 </div>
-
-<div>
-    @Html.Grid(Model).AutoGenerateColumns().Sortable().Filterable().WithPaging(8)
+<div class="col-md-12">
+    @using (Html.BeginForm("uploadAsileCsv", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+    <div class="form-group">
+        <label for="attachment">Add for More Aisle (CSV File only)</label>
+        <label class="btn btn-default btn-file">
+            <input type="file" name="attachmentcsv" id="attachmentcsv" hidden>
+        </label>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+       
+    }
 </div>
+
+
 
 @section Scripts {
     <script src="@Url.Content("~/Scripts/gridmvc.min.js")" type="text/javascript"></script>

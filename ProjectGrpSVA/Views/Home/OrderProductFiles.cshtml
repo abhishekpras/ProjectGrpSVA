@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectGrpSVA.DataAccess.Orders>
+﻿@model IEnumerable<ProjectGrpSVA.Models.OrderDisplay>
 @using GridMvc.Html
 @{
     ViewBag.Title = "Index";
@@ -22,16 +22,16 @@
     <label />
 </div>
 <div class="col-md-12">
-    @using (Html.BeginForm("uploadOrderCsv", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("uploadOrderProductCsv", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-    <div class="form-group">
-        <label for="attachment">Add for More Orders (CSV File only)</label>
-        <label class="btn btn-default btn-file">
-            <input type="file" name="attachmentcsv" id="attachmentcsv" hidden>
-        </label>
-        <button type="submit" class="btn btn-primary">Upload</button>
-    </div>
-       
+        <div class="form-group">
+            <label for="attachment">Add for more Orders+Product (CSV File only)</label>
+            <label class="btn btn-default btn-file">
+                <input type="file" name="attachmentcsv" id="attachmentcsv" hidden>
+            </label>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+
     }
 </div>
 
