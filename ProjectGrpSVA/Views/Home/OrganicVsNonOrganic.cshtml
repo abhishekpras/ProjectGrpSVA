@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css {
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<style>
+    #chat_container {
+        width: 800px;
+        height: 400px;
+        border: 1px solid #ddd;
+        padding: 1px;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="col-md-12">
+    <label />
+</div>
+<div id="chat_container">
+    <canvas id="pie-chart"></canvas>
+</div>
+<script src="~/Scripts/Chart.js"></script>
+<script>
+        var repArray = @Html.Raw(Json.Encode(ViewBag.rep));
+        var hod = @Html.Raw(Json.Encode(ViewBag.product));
+
+        var ctx = document.getElementById("pie-chart");
+        var barchat = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: hod,
+                datasets: [{
+                    label: "Product Type",
+                    data: repArray,
+                    backgroundColor: ["#3e95cd", "#8e5ea2"]
+                }]
+            },
+
+            options: {
+                title: {
+                    display: true,
+                    text: 'Organic Vs Non-Organic'
+                }
+            }
+        });
+
+</script>

@@ -1,8 +1,68 @@
-﻿
-@{
-    ViewBag.Title = "DaySincePriorOrder";
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DaySincePriorOrder</h2>
-<h2>@ViewBag.json</h2>
+@section css {
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+}
 
+<style>
+    #chat_container {
+        width: 800px;
+        height: 400px;
+        border: 1px solid #ddd;
+        padding: 1px;
+        border-radius: 4px;
+    }
+</style>
+
+<h2>@ViewBag.json</h2>
+<div class="col-md-12">
+    <label />
+</div>
+<div id="chat_container">
+    <canvas id="bar_chat"></canvas>
+</div>
+<script src="~/Scripts/Chart.js"></script>
+<script>
+        var repArray = @Html.Raw(Json.Encode(ViewBag.rep));
+        var hod = @Html.Raw(Json.Encode(ViewBag.hod));
+
+        var ctx = document.getElementById("bar_chat").getContext('2d');
+        var barchat = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: hod,
+                datasets: [{
+                    label: "Number of Orders",
+                    data: repArray,
+                    borderColor: "#80b6f4",
+                    pointBorderColor: "#80b6f4",
+                    pointBackgroundColor: "#80b6f4",
+                    pointHoverBackgroundColor: "#80b6f4",
+                    pointHoverBorderColor: "#80b6f4",
+                    pointBorderWidth: 10,
+                    pointHoverRadius: 10,
+                    pointHoverBorderWidth: 1,
+                    pointRadius: 3,
+                    fill: false,
+                    borderWidth: 4
+                }]
+            },
+
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Day Since Prior Order'
+                        },
+                        ticks: { beginAtZero: true }
+                    }]
+                },
+                legends: { display: false }
+            }
+        });
+
+</script>

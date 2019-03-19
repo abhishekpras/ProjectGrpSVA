@@ -277,6 +277,12 @@
     <Content Include="Views\Home\NaturalLanguageProcessing.cshtml" />
     <Content Include="Views\Home\Clustering.cshtml" />
     <Content Include="Views\Home\MoreAnalytics.cshtml" />
+    <Content Include="Views\Home\Bestsellers.cshtml" />
+    <Content Include="Views\Home\MostOftenReordered.cshtml" />
+    <Content Include="Views\Home\NewOrderVsReorder.cshtml" />
+    <Content Include="Views\Home\OrganicVsNonOrganic.cshtml" />
+    <Content Include="Views\Home\ReOrganicVsNonOrganic.cshtml" />
+    <Content Include="Views\Home\ItemOnCartFirst.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

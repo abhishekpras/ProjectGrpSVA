@@ -16,6 +16,7 @@
     }
 </style>
 
+<h2>@ViewBag.json</h2>
 <div class="col-md-12">
     <label />
 </div>
@@ -33,7 +34,7 @@
             data: {
                 labels: hod,
                 datasets: [{
-                    label: "Count of Orders",
+                    label: "Count of Reorders",
                     data: repArray,
                     borderColor: "#80b6f4",
                     pointBorderColor: "#80b6f4",
@@ -55,7 +56,16 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'n_items'
+                            labelString: 'Reordered'
+                        },
+                        ticks: { beginAtZero: true }
+                    }]
+                },
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Count'
                         },
                         ticks: { beginAtZero: true }
                     }]

@@ -175,67 +175,227 @@ namespace ProjectGrpSVA.Controllers
 
         public ActionResult HourOfDay()
         {
-            var query = db.Orders
-                   .GroupBy(p => p.order_hour_of_day)
-                   .Select(g => new { name = g.Key, count = g.Count() });
+        var list = db.Orders.OrderBy(p => p.order_hour_of_day).Select(p => new { p.order_hour_of_day }).ToList();
+            List<int> repartitions = new List<int>();
+            var hod_List = list.Select(x => x.order_hour_of_day).Distinct();
+            
+            foreach(var item in hod_List)
+            {
+                repartitions.Add(list.Count(x => x.order_hour_of_day == item));
+            }
 
-            string json = JsonConvert.SerializeObject(query);
+            var rep = repartitions;
+            ViewBag.hod = hod_List;
+            ViewBag.rep = repartitions.ToList();
 
-            ViewBag.json = json;
-
-            return View();
+             return View();
         }
 
         public ActionResult DayOfWeek()
         {
-            var query = db.Orders
-                   .GroupBy(p => p.order_dow)
-                   .Select(g => new { name = g.Key, count = g.Count() });
+            var list = db.Orders.OrderBy(p => p.order_dow).Select(p => new { p.order_dow }).ToList();
+            List<int> repartitions = new List<int>();
+            var hod_List = list.Select(x => x.order_dow).Distinct();
 
-            string json = JsonConvert.SerializeObject(query);
+            foreach (var item in hod_List)
+            {
+                repartitions.Add(list.Count(x => x.order_dow == item));
+            }
 
-            ViewBag.json = json;
+            var rep = repartitions;
+            ViewBag.hod = hod_List;
+            ViewBag.rep = repartitions.ToList();
 
             return View();
+
         }
 
         public ActionResult DaySincePriorOrder()
         {
-            var query = db.Orders
-                   .GroupBy(p => p.days_since_prior_order)
-                   .Select(g => new { name = g.Key, count = g.Count() });
-           
+            var list = db.Orders.OrderBy(p => p.days_since_prior_order).Select(p => new { p.days_since_prior_order }).ToList();
+            List<int> repartitions = new List<int>();
+            var hod_List = list.Select(x => x.days_since_prior_order).Distinct();
 
-            string json = JsonConvert.SerializeObject(query);
+            foreach (var item in hod_List)
+            {
+                repartitions.Add(list.Count(x => x.days_since_prior_order == item));
+            }
 
-            ViewBag.json = json;
-
-            return View();
-        }
-
-        public ActionResult PriorOrders()
-        {
-            var query = db.Orders.Where(u => u.eval_set == "prior");
-
-            string json = JsonConvert.SerializeObject(query);
-
-            ViewBag.json = json;
+            var rep = repartitions;
+            ViewBag.hod = hod_List;
+            ViewBag.rep = repartitions.ToList();
 
             return View();
         }
 
         public ActionResult ItemsDoPeopleBuy()
         {
-            var query = db.Order_Products
-                   .GroupBy(p => p.order_id)
-                   .Select(g => new { name = g.Key, count = g.Count() });
+            var list = db.Order_Products.OrderBy(p => p.order_id).Select(p => new { p.order_id }).ToList();
+            List<int> repartitions = new List<int>();
+            var hod_List = list.Select(x => x.order_id).Distinct();
 
-            string json = JsonConvert.SerializeObject(query);
+            foreach (var item in hod_List)
+            {
+                repartitions.Add(list.Count(x => x.order_id == item));
+            }
 
-            ViewBag.json = json;
+            var rep = repartitions;
+            ViewBag.hod = hod_List;
+            ViewBag.rep = repartitions.ToList();
 
             return View();
         }
+
+        public ActionResult Bestsellers()
+        {
+
+            var list = db.Order_Products
+                         .Join(db.Product,
+                             c => c.product_id,
+                             p => p.product_id,
+                             (c, p) => new {
+                                 product_name = p.product_name
+                             }).GroupBy(info => info.product_name)
+                         .Select(group => new {
+                             Product_Name = group.Key,
+                             Count = group.Count()
+                         }).OrderByDescending(x => x.Count).Take(25).ToList();
+
+
+
+            List<int> repartitions = new List<int>();
+            var product_List = list.Select(x => x.Product_Name);
+            ViewBag.product = product_List;
+            ViewBag.rep = list.Select(x => x.Count);
+
+            return View();
+        }
+
+        public ActionResult NewOrderVsReorder()
+        {
+
+            var list = db.Order_Products.OrderBy(p => p.reordered).Select(p => new {
+                reordered = p.reordered == 1 ? "Re-Order" : "New Order"
+            }).ToList();
+            List<int> repartitions = new List<int>();
+            var hod_List = list.Select(x => x.reordered).Distinct();
+
+            foreach (var item in hod_List)
+            {
+                repartitions.Add(list.Count(x => x.reordered == item));
+            }
+
+            var rep = repartitions;
+            ViewBag.hod = hod_List;
+            ViewBag.rep = repartitions.ToList();
+
+            return View();
+
+        }
+
+        public ActionResult MostOftenReordered()
+        {
+            var list = db.Order_Products
+                         .Join(db.Product,
+                             c => c.product_id,
+                             p => p.product_id,
+                             (c, p) => new {
+                                 product_name = p.product_name,
+                                 reordered = c.reordered
+                             }).GroupBy(y => y.product_name)
+                         .Select(group => new {
+                             Product_Name = group.Key,
+                             Average = group.Average(r => r.reordered),
+                             Count = group.Count()
+                         }).OrderByDescending(x => x.Average).ToList();
+
+            list.RemoveAll(p => p.Count <= 40);
+            var list_Top25 = list.Take(25);
+            ViewBag.product = list_Top25.Select(x => x.Product_Name);
+            ViewBag.rep = list_Top25.Select(x => x.Average);
+
+            return View();
+
+        }
+
+        public ActionResult OrganicVsNonOrganic()
+        {
+            var query = (from pt in db.Product
+                        select new
+                        {
+                            product = pt.product_name.Contains("Organic")? "Organic": "Non Organic"
+                            
+                        }).ToList();
+
+            var product = query.Select(x => x.product).Distinct();
+            List<int> repartitions = new List<int>();
+
+            foreach (var item in product)
+            {
+                repartitions.Add(query.Count(x => x.product == item));
+            }
+
+            ViewBag.product = product;
+            ViewBag.rep = repartitions.ToList();
+
+            return View();
+
+        }
+
+        public ActionResult ReOrganicVsNonOrganic()
+        {
+            var list = db.Order_Products
+                         .Join(db.Product,
+                             c => c.product_id,
+                             p => p.product_id,
+                             (c, p) => new {
+                                 product_name = p.product_name,
+                                 reordered = c.reordered
+                             }).GroupBy(y => y.product_name)
+                         .Select(group => new {
+                             Product_Name = group.Key.Contains("Organic") ? "Organic" : "Non Organic",
+                             Avg = (group.Sum(r => r.reordered) != 0) ?  group.Count() / group.Sum(r => r.reordered)    : 0
+                         }).ToList();
+
+            var product = list.Select(x => x.Product_Name).Distinct();
+
+            List<int> repartitions = new List<int>();
+
+            foreach (var item in product)
+            {
+                repartitions.Add(list.Where(x => x.Product_Name == item).Sum(x => x.Avg));
+            }
+
+            ViewBag.product = product;
+            ViewBag.rep = repartitions.ToList();
+
+            return View();
+
+        }
+
+        public ActionResult ItemOnCartFirst()
+        {
+            var list = db.Order_Products
+                         .Join(db.Product,
+                             c => c.product_id,
+                             p => p.product_id,
+                             (c, p) => new {
+                                 product_name = p.product_name,
+                                 add_to_cart_order = c.add_to_cart_order
+                             }).Where(a => a.add_to_cart_order == 1).
+                             GroupBy(y => new { y.product_name})
+                         .Select(group => new {
+                             Product_Name = group.Key.product_name,
+                             Add_To_Cart_Order = group.Sum(r => r.add_to_cart_order),
+                         }).OrderByDescending(x => x.Add_To_Cart_Order).Take(25).ToList();
+
+            ViewBag.product = list.Select(x => x.Product_Name);
+            ViewBag.rep = list.Select(x => x.Add_To_Cart_Order);
+
+            return View();
+
+        }
+
 
         public ActionResult MarketBasketAnalysis()
         {

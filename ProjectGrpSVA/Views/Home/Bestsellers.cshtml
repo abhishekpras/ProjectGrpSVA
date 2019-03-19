@@ -16,6 +16,7 @@
     }
 </style>
 
+<h2>@ViewBag.json</h2>
 <div class="col-md-12">
     <label />
 </div>
@@ -25,15 +26,15 @@
 <script src="~/Scripts/Chart.js"></script>
 <script>
         var repArray = @Html.Raw(Json.Encode(ViewBag.rep));
-        var hod = @Html.Raw(Json.Encode(ViewBag.hod));
+        var product = @Html.Raw(Json.Encode(ViewBag.product));
 
         var ctx = document.getElementById("bar_chat").getContext('2d');
         var barchat = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: hod,
+                labels: product,
                 datasets: [{
-                    label: "Count of Orders",
+                    label: "Top 25 Best Selling Product",
                     data: repArray,
                     borderColor: "#80b6f4",
                     pointBorderColor: "#80b6f4",
@@ -55,11 +56,21 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'n_items'
+                            labelString: 'Product'
                         },
                         ticks: { beginAtZero: true }
                     }]
                 },
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Product Sold'
+                        },
+                        ticks: { beginAtZero: true }
+                    }]
+                },
+
                 legends: { display: false }
             }
         });
