@@ -1,7 +1,37 @@
-﻿
-@{
-    ViewBag.Title = "ProjectGrpSVA";
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css {
+    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
 }
 
-<h2>Index</h2>
+<!--Creating a Showcase section as a Punch Line of the product-->
+    <div>
+        <section id="showcase">
+            <div class="container">
+                <h1>Data can talk.....Listen!</h1>
+                <p>Data analytics tools can help deliver certainty and bring the data to life.</p>
+            </div>
+        </section>
+        <!--Creating a Container section for the product sfeatures and ervices-->
+        <section id="boxes">
+            <div class="container">
+                <div class="box">
+                    <img src="./images/logo_html.png">
+                    <h3>Data Ingestion</h3>
+                    <p>Data ingestion is the process of obtaining and importing data for immediate use or storage in a database. To ingest something is to "take something in or absorb something." Data can be streamed in real time or ingested in batches </p>
+                </div>
+                <div class="box">
+                    <img src="./images/logo_css.png">
+                    <h3>Data Visualization</h3>
+                    <p>Data visualization is viewed by many disciplines as a modern equivalent of visual communication. It involves the creation and study of the visual representation of data. To communicate information clearly and efficiently, data visualization uses statistical graphics, plots, information graphics and other tools</p>
+                </div>
+                <div class="box">
+                    <img src="./images/logo_brush.png">
+                    <h3>Data Analytics</h3>
+                    <p>Data analysis is a process of inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information, informing conclusions, and supporting decision-making</p>
+                </div>
+            </div>
+        </section>
+    </div>
 

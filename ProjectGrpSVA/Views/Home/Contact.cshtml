@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.column {
+  float: left;
+  width: 33.3%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+
+}
+</style>
+
+<div class="row">
+    <div class="column">
+        <div class="card">
+            <img src="~/images/img1.jpg" alt="Soumya" style="width:50%">
+            <div class="container1">
+                <h2>Soumyajit Sarkar</h2>
+                <p class="title1">Team Player</p>
+                <p>Loves to cook and reads lot of book</p>
+                <p>soumyajit@mail.usf.edu </p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <img src="~/images/img2.jpg" alt="Vishal" style="width:50%">
+            <div class="container1">
+                <h2>Vishal Sonawane</h2>
+                <p class="title1">Team Player</p>
+                <p>Loves to wear glares, and often just stares</p>
+                <p>vsonawane@mail.usf.edu</p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <img src="~/images/img3.jpg" alt="Abhishek" style="width:50%">
+            <div class="container1">
+                <h2>Abhishek Prasad</h2>
+                <p class="title1">Team Player</p>
+                <p>Loves to go Gym, and become Slim<p>
+                <p>abhishekpras@mail.usf.edu</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>InstacartGrpSVA</title>
+    <title>DataChatter | Welcome</title>
 
     <link rel="stylesheet" href="~/Content/bootstrap.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
@@ -20,10 +20,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">InstacartGrpSVA</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Data Chatter Data Analytics in Retail</a>
             </div>
             <div class="navbar-collapse collapse" id=".navbar-collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exploratory Analysis<span class="caret"></span></a>
                         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
@@ -33,42 +33,26 @@
                                 <a tabindex="-1" href="#">Product Analysis</a>
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Bestsellers", "Bestsellers", "Home")</li>
-                                    <li>@Html.ActionLink("Organic vs Non-organic", "OrganicVsNonOrganic", "Home")</li>
-                                    <li>@Html.ActionLink("Reordering Organic vs Non-organic", "ReOrganicVsNonOrganic", "Home")</li>
+                                    <li>@Html.ActionLink("Organic/Non-organic", "OrganicVsNonOrganic", "Home")</li>
+                                    <li>@Html.ActionLink("Reordering", "ReOrganicVsNonOrganic", "Home")</li>
                                 </ul>
                             </li>
                             <li class="divider"></li>
                             <li class="dropdown-submenu">
-                                <a tabindex="-1" href="#">Customer Analysis</a>
+                                <a tabindex="-1" href="#">Time of Purchase</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Exploring Customer Habits</a></li>
-                                    <li><a href="#">The customer with the strongest habit</a></li>
-                                    <li>@Html.ActionLink("Item on Cart First", "ItemOnCartFirst", "Home")</li>
-                                </ul>
-                            </li>
-                            <li class="divider"></li>
-                            <li class="dropdown-submenu">
-                                <a tabindex="-1" href="#">Association Analysis</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Association between time of last order and probability of reorder</a></li>
-                                    <li><a href="#">Association between number of orders and probability of reordering</a></li>
+                                    <li>@Html.ActionLink("Hour of Day", "HourOfDay", "Home")</li>
+                                    <li>@Html.ActionLink("Day of Week", "DayOfWeek", "Home")</li>
+                                    <li>@Html.ActionLink("Reorder", "DaySincePriorOrder", "Home")</li>
                                 </ul>
                             </li>
                             <li class="divider"></li>
                             <li class="dropdown-submenu">
                                 <a tabindex="-1" href="#">Order Analysis</a>
                                 <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("How many items do people buy?", "ItemsDoPeopleBuy", "Home")</li>
-                                    <li>@Html.ActionLink("New Order vs Reorder", "NewOrderVsReorder", "Home")</li>
+                                    <li>@Html.ActionLink("New Order/Reorder", "NewOrderVsReorder", "Home")</li>
                                     <li>@Html.ActionLink("Most often reordered", "MostOftenReordered", "Home")</li>
-                                    <li class="dropdown-submenu">
-                                        <a href="#">When do customer order?</a>
-                                        <ul class="dropdown-menu">
-                                            <li>@Html.ActionLink("Hour of Day", "HourOfDay", "Home")</li>
-                                            <li>@Html.ActionLink("Day of Week", "DayOfWeek", "Home")</li>
-                                            <li>@Html.ActionLink("Reorder", "DaySincePriorOrder", "Home")</li>
-                                        </ul>
-                                    </li>
+                                    <li>@Html.ActionLink("Item on Cart First", "ItemOnCartFirst", "Home")</li>
                                 </ul>
                             </li>
                         </ul>
@@ -93,6 +77,7 @@
                             <li>@Html.ActionLink("Order+Product Data", "OrderProductFiles", "Home")</li>
                         </ul>
                     </li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>
         </div>
@@ -102,7 +87,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - InstacartGrpSVA</p>
+            <p>&copy; MS BAIS @DateTime.Now.Year Team - Soumyajit, Vishal, Abhishek</p>
         </footer>
     </div>
 

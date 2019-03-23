@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ProjectGrpSVA.DataAccess;
 using ProjectGrpSVA.DataAccess.DL;
 using ProjectGrpSVA.Models;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -187,6 +188,7 @@ namespace ProjectGrpSVA.Controllers
             var rep = repartitions;
             ViewBag.hod = hod_List;
             ViewBag.rep = repartitions.ToList();
+            ViewBag.explaination = "There is a clear effect of hour of day on order volume. Most orders are between 8.00-18.00";
 
              return View();
         }
@@ -205,6 +207,7 @@ namespace ProjectGrpSVA.Controllers
             var rep = repartitions;
             ViewBag.hod = hod_List;
             ViewBag.rep = repartitions.ToList();
+            ViewBag.explaination = "There is a clear effect of day of the week. Most orders are on days 0 and 1. Unfortunately there is no info regarding which values represent which day, but one would assume that this is the weekend.";
 
             return View();
 
@@ -224,24 +227,25 @@ namespace ProjectGrpSVA.Controllers
             var rep = repartitions;
             ViewBag.hod = hod_List;
             ViewBag.rep = repartitions.ToList();
+            ViewBag.explaination = "People seem to order more often after exactly 1 Month.";
+
 
             return View();
         }
 
         public ActionResult ItemsDoPeopleBuy()
         {
-            var list = db.Order_Products.OrderBy(p => p.order_id).Select(p => new { p.order_id }).ToList();
-            List<int> repartitions = new List<int>();
-            var hod_List = list.Select(x => x.order_id).Distinct();
+            var list = (from s in db.Order_Products
+                        group s by s.order_id into g
+                        select new {
+                            Order_Id = g.Key,
+                            n_items = g.OrderByDescending(c => c.add_to_cart_order).FirstOrDefault()
+                        }).ToList();
 
-            foreach (var item in hod_List)
-            {
-                repartitions.Add(list.Count(x => x.order_id == item));
-            }
+            ViewBag.rep = list.Select(x => x.Order_Id);
+            ViewBag.hod = list.Select(x => x.n_items);
 
-            var rep = repartitions;
-            ViewBag.hod = hod_List;
-            ViewBag.rep = repartitions.ToList();
+            ViewBag.explaination = "Let’s have a look how many items are in the orders. We can see that people most often order around 5 items.";
 
             return View();
         }
@@ -265,6 +269,7 @@ namespace ProjectGrpSVA.Controllers
 
             List<int> repartitions = new List<int>();
             var product_List = list.Select(x => x.Product_Name);
+            ViewBag.explaination = "Let’s have a look which products are sold most often (top25). And the clear top 25 are winners";
             ViewBag.product = product_List;
             ViewBag.rep = list.Select(x => x.Count);
 
@@ -288,6 +293,7 @@ namespace ProjectGrpSVA.Controllers
             var rep = repartitions;
             ViewBag.hod = hod_List;
             ViewBag.rep = repartitions.ToList();
+            ViewBag.explaination = "More than 50% of the ordered items are reorders.";
 
             return View();
 
@@ -313,6 +319,7 @@ namespace ProjectGrpSVA.Controllers
             var list_Top25 = list.Take(25);
             ViewBag.product = list_Top25.Select(x => x.Product_Name);
             ViewBag.rep = list_Top25.Select(x => x.Average);
+            ViewBag.explaination = "Now here it becomes really interesting. These 25 products have the highest probability of being reordered.";
 
             return View();
 
@@ -337,6 +344,8 @@ namespace ProjectGrpSVA.Controllers
 
             ViewBag.product = product;
             ViewBag.rep = repartitions.ToList();
+
+            ViewBag.explaination = "What is the percentage of orders that are organic vs. not organic?";
 
             return View();
 
@@ -369,6 +378,8 @@ namespace ProjectGrpSVA.Controllers
             ViewBag.product = product;
             ViewBag.rep = repartitions.ToList();
 
+            ViewBag.explaination = "People more often reorder non-organic products vs organic products.";
+
             return View();
 
         }
@@ -391,16 +402,12 @@ namespace ProjectGrpSVA.Controllers
 
             ViewBag.product = list.Select(x => x.Product_Name);
             ViewBag.rep = list.Select(x => x.Add_To_Cart_Order);
+            ViewBag.explaination = "People seem to be quite certain about their love for products and if they buy them, put them into their cart first in more than 60% of the time.";
 
             return View();
 
         }
 
-
-        public ActionResult MarketBasketAnalysis()
-        {
-            return View();
-        }
 
         public ActionResult IncomePrediction()
         {
@@ -417,9 +424,43 @@ namespace ProjectGrpSVA.Controllers
             return View();
         }
 
-        public ActionResult MoreAnalytics()
+        public ActionResult Contact()
         {
             return View();
+        }
+
+        public ActionResult MarketBasketAnalysis(string input_1, string input_2)
+        {
+
+            string first_input = Request["input_1"];
+            string second_input = Request["input_2"];
+
+             if (string.IsNullOrEmpty(first_input))
+            {
+                first_input = "sugar";
+                second_input = "butter";
+            }
+            else
+            {
+                Debug.WriteLine("It is not null");
+            }
+
+            var client = new RestClient("https://ussouthcentral.services.azureml.net/workspaces/3393a5fc80a74e40bb902dafbaec5617/services/00337e43fd414d9b97d4db94653477ac/execute?api-version=2.0&format=swagger");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Postman-Token", "185a2570-d2e2-4419-b835-057ed9cc7038");
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Authorization", "Bearer BSBwa+SAlu7li0hStZYmNpZ4tpNNnSs6y8l+DSxBKJ/kGGL8wqrVx/1bkUof2n84UTomSnv6pHl5DpsGiEn0fg==");
+            request.AddHeader("Content-Type", "application/json");
+            //request.AddParameter("undefined", "{\r\n        \"Inputs\": {\r\n                \"input1\":\r\n                [\r\n                    {\r\n                            'Item1': \"sugar\",   \r\n                            'Item2': \"butter\",   \r\n                    }\r\n                ],\r\n        },\r\n    \"GlobalParameters\":  {\r\n    }\r\n}\r\n", ParameterType.RequestBody);
+            request.AddParameter("undefined", "{\r\n        \"Inputs\": {\r\n                \"input1\":\r\n                [\r\n                    {\r\n                            'Item1': \"" + first_input + "\",   \r\n                            'Item2': \"" + second_input + "\",   \r\n                    }\r\n                ],\r\n        },\r\n    \"GlobalParameters\":  {\r\n    }\r\n}\r\n", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            RootObject tmp = JsonConvert.DeserializeObject<RootObject>(response.Content);
+
+            Results r = new Results();
+            r = tmp.Results;
+
+           return View(r.output1);
         }
 
 
