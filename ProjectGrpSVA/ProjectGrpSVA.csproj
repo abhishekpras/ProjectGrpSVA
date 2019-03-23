@@ -228,6 +228,7 @@
     <Content Include="images\showcase.jpg" />
     <Content Include="libman.json" />
     <Content Include="Grid.mvc.readme" />
+    <None Include="Properties\PublishProfiles\ProjectGrpSVA20190322092608 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -246,7 +247,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +303,7 @@
     <Content Include="Views\Home\ReOrganicVsNonOrganic.cshtml" />
     <Content Include="Views\Home\ItemOnCartFirst.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
