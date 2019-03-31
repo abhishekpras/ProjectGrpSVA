@@ -1,5 +1,6 @@
 ﻿using LINQtoCSV;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProjectGrpSVA.DataAccess;
 using ProjectGrpSVA.DataAccess.DL;
 using ProjectGrpSVA.Models;
@@ -414,8 +415,84 @@ namespace ProjectGrpSVA.Controllers
         }
 
 
-        public ActionResult IncomePrediction()
+        public ActionResult IncomePrediction(string text_age, string text_education,string text_martial_status, string text_relationship,string text_race,string text_sex)
         {
+            string st_text_age = Request["text_age"];
+            string st_text_education = Request["text_education"];
+            string st_text_martial_status = Request["text_martial_status"];
+            string st_text_relationship = Request["text_relationship"];
+            string st_text_race = Request["text_race"];
+            string st_text_sex = Request["text_sex"];
+            string predict_greater = ">50K";
+
+            String cAge = "Age: ";
+            String cEducation = "  :Education: ";
+            String cMartialstatus = "  :Martial Status: ";
+            String cRelationship = "  :Relationship: ";
+            String cRace = "  :Race: ";
+            String cSex = "  :Sex: ";
+
+
+            if (string.IsNullOrEmpty(st_text_age))
+            {
+                Debug.WriteLine("It is null");
+                st_text_age = "40";
+                st_text_education = "Doctorate";
+                st_text_martial_status = "Married-AF-spouse";
+                st_text_relationship = "Husband";
+                st_text_race = "White";
+                st_text_sex = "Male";
+            }
+            else
+            {
+                Debug.WriteLine("It is not null");
+            }
+
+            String user_input = String.Concat(cAge,st_text_age , cEducation,st_text_education, cMartialstatus, st_text_martial_status, cRelationship,st_text_relationship, cRace,st_text_race, cSex, st_text_sex);
+
+            var client = new RestClient("https://ussouthcentral.services.azureml.net/workspaces/3393a5fc80a74e40bb902dafbaec5617/services/7510e8e34ba046539f08c275abe6076c/execute?api-version=2.0&format=swagger");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("P" +
+                "ostman-Token", "2461affa-2b1a-4325-b550-7bc8e08d1b5e");
+            request.AddHeader("cache-control" +
+                "", "no-cache");
+            request.AddHeader("Authorization", "Bearer ouBBRCNKH8O7PiLbzsGBnP05zvgdt7S2CFGe5k49DgZckVwcPjMe0x7Aek0DOFJE2cF1SjAWoAYqVppteoMhGQ==");
+            request.AddHeader("Content-Type", "application/json");
+            //request.AddParameter("undefined", "{\r\n        \"Inputs\": {\r\n                \"input1\":\r\n                [\r\n                    {\r\n                            'age': \"" + txtAge.Text + "\",   \r\n                            'education': \"" + drpEducation.Text + "\",   \r\n                            'marital-status': \"" + rbtMarriedStatus.SelectedItem.Text + "\",   \r\n                            'relationship': \"" + lboxRelation.Text + "\",   \r\n                            'race': \"" + ChkRace.Text + "\",   \r\n                            'sex': \"" + drpSex.Text + "\",   \r\n                    }\r\n                ],\r\n        },\r\n    \"GlobalParameters\":  {\r\n    }\r\n}\r\n", ParameterType.RequestBody);
+            request.AddParameter("undefined", "{\r\n        \"Inputs\": {\r\n                \"input1\":\r\n                [\r\n                    {\r\n                            'age': \"" + st_text_age + "\",   \r\n                            'education': \"" + st_text_education + "\",   \r\n                            'marital-status': \"" + st_text_martial_status + "\",   \r\n                            'relationship': \"" + st_text_relationship + "\",   \r\n                            'race': \"" + st_text_race + "\",   \r\n                            'sex': \"" + st_text_sex + "\",   \r\n                    }\r\n                ],\r\n        },\r\n    \"GlobalParameters\":  {\r\n    }\r\n}\r\n", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            
+            /*
+            Debug.WriteLine("Age is:" + st_text_age);
+            Debug.WriteLine("Education is:" + st_text_education);
+            Debug.WriteLine("Martial Status is:" + st_text_martial_status);
+            Debug.WriteLine("Relationship is:" + st_text_relationship);
+            Debug.WriteLine("Race is:" + st_text_race);
+            Debug.WriteLine("Sex is:" + st_text_sex);
+            */
+            
+            var results = JObject.Parse(response.Content);
+            string predict_value = results["Results"]["output1"].ToString();
+            string predict_value1 = predict_value.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Replace("\"", "");
+
+            int first_index = predict_value1.IndexOf("Scored Labels:") + "Scored Labels:".Length;
+            int last_index = predict_value1.LastIndexOf("Scored Probabilities:");
+            string final_predict = predict_value1.Substring(first_index, last_index - first_index).Replace(",","");
+
+            ViewBag.final_predict = final_predict;
+           
+            if (final_predict.Contains(predict_greater))
+            {
+                Debug.WriteLine("Income is greater than 50K");
+                ViewBag.comment = ("His Predicted Income should be greater than 50K. Ask if he would like to apply for Credit Card");
+                ViewBag.user_input = user_input;
+            }
+            else
+            {
+                Debug.WriteLine("Income is less than 50K");
+                ViewBag.comment = ("His Predicted Income should be less than 50K. Ask if he would like to receive Coupons");
+                ViewBag.user_input = user_input;
+            }
             return View();
         }
 

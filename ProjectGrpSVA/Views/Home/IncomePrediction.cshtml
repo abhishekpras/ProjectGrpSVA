@@ -1,7 +1,46 @@
-﻿
+﻿@using GridMvc.Html
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css {
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
+}
+
 @{
     ViewBag.Title = "IncomePrediction";
 }
 
-<h2>IncomePrediction</h2>
-
+        <div>
+            <section>
+                @using (Html.BeginForm("IncomePrediction", "Home", FormMethod.Post))
+                {
+                    <table>
+                        <tr>                            
+                            <td>
+                                <label for="inputAge">Enter Age</label> <br />
+                                <input type="text" name="text_age" value="40"><br />
+                                <label for="inputEducation">Enter Education</label> <br />
+                                <input type="text" name="text_education" value="Doctorate"><br />
+                                <label for="inputMartial">Enter Martial Status</label> <br />
+                                <input type="text" name="text_martial_status" value="Married-AF-spouse"><br />
+                                <label for="inputRelationship">Enter Relationship</label> <br />
+                                <input type="text" name="text_relationship" value="Husband"><br />
+                                <label for="inputRace">Enter Race</label> <br />
+                                <input type="text" name="text_race" value="White"><br />
+                                <label for="inputSex">Enter Sex</label> <br />
+                                <input type="text" name="text_sex" value="Male"><br />
+                                <br />
+                                <input type="submit" name="Enter" style="text-align:justify" /><br />
+                                <br />
+                                <h3 style="color:brown"> "RESULT:" @ViewBag.comment </h3>
+                                <br />
+                                <h4 style="color:darkorange"> "User Input:" @ViewBag.user_input </h4>
+                                <br />
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </section>
+        </div>            

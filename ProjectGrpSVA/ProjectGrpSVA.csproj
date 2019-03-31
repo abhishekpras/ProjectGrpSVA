@@ -229,6 +229,7 @@
     <Content Include="libman.json" />
     <Content Include="Grid.mvc.readme" />
     <None Include="Properties\PublishProfiles\ProjectGrpSVA20190322092608 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\ProjectGrpSVA20190323102129 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
